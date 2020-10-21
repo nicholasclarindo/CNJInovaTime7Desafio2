@@ -1,0 +1,291 @@
+############################################################################################
+# CREATE TABLES
+############################################################################################
+
+############################################################################################
+# MOVIMENTO NACIONAL
+############################################################################################
+create external table cnj.movimentonacional (
+`numero` string,
+`classeProcessual` string,
+`grau` string,
+`millisInsercao` string,
+`siglatribunal` string,
+`codigonacional` string,
+`complemento` string)
+STORED AS PARQUET 
+LOCATION
+'hdfs://cloudera.intranet:8020/user/user_cnj/data/movimentonacional' 
+
+############################################################################################
+# MOVIMENTO LOCAL
+############################################################################################
+create external table cnj.movimentolocal (
+`numero` string,
+`classeProcessual` string,
+`grau` string,
+`millisInsercao` string,
+`siglatribunal` string,
+`codigomovimento` string,
+`codigopainacional` string)
+STORED AS PARQUET 
+LOCATION
+'hdfs://cloudera.intranet:8020/user/user_cnj/data/movimentolocal' 
+
+############################################################################################
+# MOVIMENTO
+############################################################################################
+create external table cnj.movimento (
+`numero` string,
+`classeProcessual` bigint,
+`grau` string,
+`millisInsercao` bigint,
+`siglatribunal` string,
+`datahora` string,
+`identificadormovimento` string,
+`nivelsigilo` bigint,
+`tiporesponsavelmovimento` bigint)
+STORED AS PARQUET 
+LOCATION
+'hdfs://cloudera.intranet:8020/user/user_cnj/data/movimento' 
+
+############################################################################################
+# ORGAOJULGADOR
+############################################################################################
+create external table cnj.orgaojulgador (
+`numero` string,
+`classeProcessual` bigint,
+`grau` string,
+`millisInsercao` bigint,
+`siglatribunal` string,
+`codigomunicipioibge` bigint,
+`codigoorgao` bigint,
+`instancia` string,
+`nomeorgao` string)
+STORED AS PARQUET 
+LOCATION
+'hdfs://cloudera.intranet:8020/user/user_cnj/data/orgaoJulgador' 
+
+############################################################################################
+# ASSUNTO
+############################################################################################
+create external table cnj.assunto (
+`numero` string,
+`classeProcessual` bigint,
+`grau` string,
+`millisInsercao` bigint,
+`siglatribunal` string,
+`codigonacional` bigint,
+`principal` boolean)
+STORED AS PARQUET 
+LOCATION
+'hdfs://cloudera.intranet:8020/user/user_cnj/data/assunto'
+
+############################################################################################
+# DADOS BASICOS
+create external table cnj.dadosbasicos (
+`grau` string,
+`millisInsercao` bigint,
+`siglatribunal` string,
+`classeProcessual` bigint,
+`codigolocalidade` string,
+`competencia` bigint,
+`dataazuizamento` string,
+`dscSistema` string,
+`nivelsigilo` bigint,
+`numero` string,
+`procel` bigint,
+`tamanhoprocesso` bigint,
+`totalassuntos` bigint,
+`valorcausa` double)
+STORED AS PARQUET 
+LOCATION
+'hdfs://cloudera.intranet:8020/user/user_cnj/data/dadosBasicos'   
+
+############################################################################################
+# MPM_SERVENTIAS
+############################################################################################
+CREATE EXTERNAL TABLE cnj.mpm_serventias (                                       
+  seq_orgao STRING,                                                              
+  nomedavara STRING,                                                             
+  seq_orgao_pai STRING,                                                          
+  tip_orgao STRING,                                                              
+  seq_cidade STRING,                                                             
+  dsc_cidade STRING,                                                             
+  sig_uf STRING,                                                                 
+  cod_ibge STRING,                                                               
+  dsc_tip_orgao STRING,                                                          
+  tip_esfera_justica STRING,                                                     
+  int_ordem_orgao STRING,                                                        
+  dsc_orgao STRING,                                                              
+  dsc_denom_serventia_judicial STRING,                                           
+  endereco_serventia STRING,                                                     
+  cep_serventia STRING,                                                          
+  latitude STRING,                                                               
+  longitude STRING                                                               
+)                                                                                
+WITH SERDEPROPERTIES ('serialization.format'='1')                                
+STORED AS ORC                                                                    
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/mpm_serventias.orc'   
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='4711568')
+
+############################################################################################
+# PROCESSOS_RECEBIDOS
+############################################################################################
+CREATE EXTERNAL TABLE cnj.processosrecebidos (                                                                                                                              
+  arquivos STRING COMMENT 'Campo identificador dos Dados da Linha do Arquivo'                                                                                               
+)                                                                                                                                                                           
+WITH SERDEPROPERTIES ('serialization.format'='1')                                                                                                                           
+STORED AS TEXTFILE                                                                                                                                                          
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/processosrecebidos'                                                                                              
+TBLPROPERTIES ('STATS_GENERATED'='TASK', 'impala.lastComputeStatsTime'='1602866583', 'numFiles'='0', 'numFilesErasureCoded'='0', 'numRows'='10010', 'totalSize'='25295262') 
+
+############################################################################################
+# REJEITADOS
+############################################################################################
+CREATE EXTERNAL TABLE cnj.rejeitados (                                            
+  atributo STRING,                                                                
+  motivo STRING,                                                                  
+  valor STRING,                                                                   
+  numero STRING,                                                                  
+  classeprocessual BIGINT,                                                        
+  codigoorgao BIGINT,                                                             
+  grau STRING,                                                                    
+  millisinsercao BIGINT,                                                          
+  siglatribunal STRING,                                                           
+  dth_processamento STRING                                                        
+)                                                                                 
+WITH SERDEPROPERTIES ('serialization.format'='1')                                 
+STORED AS PARQUET                                                                 
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/rejeitados/rejeitados' 
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='4532')
+
+############################################################################################
+# REJEITADOS
+############################################################################################
+CREATE EXTERNAL TABLE cnj.rejeitados (                                            
+  atributo STRING,                                                                
+  motivo STRING,                                                                  
+  valor STRING,                                                                   
+  numero STRING,                                                                  
+  classeprocessual BIGINT,                                                        
+  codigoorgao BIGINT,                                                             
+  grau STRING,                                                                    
+  millisinsercao BIGINT,                                                          
+  siglatribunal STRING,                                                           
+  dth_processamento STRING                                                        
+)                                                                                 
+WITH SERDEPROPERTIES ('serialization.format'='1')                                 
+STORED AS PARQUET                                                                 
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/rejeitados/rejeitados' 
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='4532')
+
+############################################################################################
+# RELATORIO_DTB_BRASIL_DISTRITO (IBGE)
+############################################################################################
+CREATE EXTERNAL TABLE cnj.relatorio_dtb_brasil_distrito (                                     
+  uf STRING,                                                                                  
+  nome_uf STRING,                                                                             
+  mesorregiao_geografica STRING,                                                              
+  nome_mesorregiao STRING,                                                                    
+  microrregiao_geografica STRING,                                                             
+  nome_microrregiao STRING,                                                                   
+  municipio STRING,                                                                           
+  codigo_municipio_completo STRING,                                                           
+  nome_municpio STRING,                                                                       
+  distrito STRING,                                                                            
+  codigo_de_distrito_completo STRING,                                                         
+  nome_distrito STRING                                                                        
+)                                                                                             
+WITH SERDEPROPERTIES ('serialization.format'='1')                                             
+STORED AS ORC                                                                                 
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/RELATORIO_DTB_BRASIL_DISTRITO.orc' 
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='482884') 
+
+############################################################################################
+# RELATORIO_DTB_BRASIL_MUNICIPIO (IBGE)
+############################################################################################
+CREATE EXTERNAL TABLE cnj.relatorio_dtb_brasil_municipio (                                     
+  uf STRING,                                                                                   
+  nome_uf STRING,                                                                              
+  mesorregiao_geografica STRING,                                                               
+  nome_mesorregiao STRING,                                                                     
+  microrregiao_geografica STRING,                                                              
+  nome_microrregiao STRING,                                                                    
+  municipio STRING,                                                                            
+  codigo_municipio_completo STRING,                                                            
+  nome_municpio STRING                                                                         
+)                                                                                              
+WITH SERDEPROPERTIES ('serialization.format'='1')                                              
+STORED AS ORC                                                                                  
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/RELATORIO_DTB_BRASIL_MUNICIPIO.orc' 
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='188971')  
+
+############################################################################################
+# RELATORIO_DTB_BRASIL_SUBDISTRITO (IBGE)
+############################################################################################
+CREATE EXTERNAL TABLE cnj.relatorio_dtb_brasil_subdistrito (                                     
+  uf STRING,                                                                                     
+  nome_uf STRING,                                                                                
+  mesorregiao_geografica STRING,                                                                 
+  nome_mesorregiao STRING,                                                                       
+  microrregiao_geografica STRING,                                                                
+  nome_microrregiao STRING,                                                                      
+  municipio STRING,                                                                              
+  codigo_municipio_completo STRING,                                                              
+  nome_municpio STRING,                                                                          
+  distrito STRING,                                                                               
+  codigo_de_distrito_completo STRING,                                                            
+  nome_distrito STRING,                                                                          
+  subdistrito STRING,                                                                            
+  codigo_de_subdistrito_completo STRING,                                                         
+  nome_de_subdistrito STRING                                                                     
+)                                                                                                
+WITH SERDEPROPERTIES ('serialization.format'='1')                                                
+STORED AS ORC                                                                                    
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/RELATORIO_DTB_BRASIL_SUBDISTRITO.orc' 
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='30166')   
+
+############################################################################################
+# SGT_ASSUNTOS
+############################################################################################
+CREATE EXTERNAL TABLE cnj.sgt_assuntos (                                         
+  codigo BIGINT,                                                                 
+  descricao STRING,                                                              
+  cod_pai DOUBLE,                                                                
+  cod_filhos STRING                                                              
+)                                                                                
+WITH SERDEPROPERTIES ('serialization.format'='1')                                
+STORED AS ORC                                                                    
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/sgt_assuntos.orc'     
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='209561')   
+
+############################################################################################
+# SGT_CLASSES
+############################################################################################
+CREATE EXTERNAL TABLE cnj.sgt_classes (                                         
+  codigo BIGINT,                                                                
+  descricao STRING,                                                             
+  sigla STRING,                                                                 
+  cod_pai DOUBLE,                                                               
+  cod_filhos STRING                                                             
+)                                                                               
+WITH SERDEPROPERTIES ('serialization.format'='1')                               
+STORED AS ORC                                                                   
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/sgt_classes.orc'     
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='47110') 
+
+############################################################################################
+# SGT_MOVIMENTOS
+############################################################################################
+CREATE EXTERNAL TABLE cnj.sgt_movimentos (                                      
+  codigo BIGINT,                                                                
+  descricao STRING,                                                             
+  cod_pai DOUBLE,                                                               
+  cod_filhos STRING                                                             
+)                                                                               
+WITH SERDEPROPERTIES ('serialization.format'='1')                               
+STORED AS ORC                                                                   
+LOCATION 'hdfs://cloudera.intranet:8020/user/user_cnj/data/sgt_movimentos.orc'  
+TBLPROPERTIES ('numFiles'='1', 'numFilesErasureCoded'='0', 'totalSize'='38006')            
+
